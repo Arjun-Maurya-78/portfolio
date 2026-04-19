@@ -10,13 +10,24 @@
 // STEP 4: Go to Account → API Keys → copy your Public Key
 // STEP 5: Replace the placeholder values below with your real IDs
 
-const EMAILJS_PUBLIC_KEY  = process.env.PUBLIC_Key;   // e.g. "abc123XYZ"
-const EMAILJS_SERVICE_ID  = process.env.SERVICE_ID;   // e.g. "service_xxxxxxx"
-const EMAILJS_TEMPLATE_ID = process.env.TEMPLATE_ID;  // e.g. "template_xxxxxxx"
+let EMAILJS_PUBLIC_KEY;
+let EMAILJS_SERVICE_ID;
+let EMAILJS_TEMPLATE_ID;
+let emailjsReady = false;
 
 // Initialize EmailJS
-(function () {
-  emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+(async function () {
+  try {
+    const response = await fetch('/api/config');
+    const config = await response.json();
+    EMAILJS_PUBLIC_KEY = config.PUBLIC_Key;
+    EMAILJS_SERVICE_ID = config.SERVICE_ID;
+    EMAILJS_TEMPLATE_ID = config.TEMPLATE_ID;
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+    emailjsReady = true;
+  } catch (error) {
+    console.error('Failed to load EmailJS config:', error);
+  }
 })();
 
 // ─────────────────────────────────────────────
@@ -137,6 +148,11 @@ formInputs.forEach(input => {
 // Submit
 form.addEventListener("submit", function (event) {
   event.preventDefault();
+
+  if (!emailjsReady) {
+    showToast("❌ Email service not ready, please try again later", "error");
+    return;
+  }
 
   const btnText  = formBtn.querySelector("span");
   const origText = btnText.innerText;
