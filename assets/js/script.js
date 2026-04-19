@@ -10,9 +10,9 @@
 // STEP 4: Go to Account → API Keys → copy your Public Key
 // STEP 5: Replace the placeholder values below with your real IDs
 
-const EMAILJS_PUBLIC_KEY  = "e2xdKM7_yNyRgiqoS";   // e.g. "abc123XYZ"
-const EMAILJS_SERVICE_ID  = "service_kw7uj5l";   // e.g. "service_xxxxxxx"
-const EMAILJS_TEMPLATE_ID = "template_iqj09rf";  // e.g. "template_xxxxxxx"
+const EMAILJS_PUBLIC_KEY  = process.env.PUBLIC_Key;   // e.g. "abc123XYZ"
+const EMAILJS_SERVICE_ID  = process.env.SERVICE_ID;   // e.g. "service_xxxxxxx"
+const EMAILJS_TEMPLATE_ID = process.env.TEMPLATE_ID;  // e.g. "template_xxxxxxx"
 
 // Initialize EmailJS
 (function () {
