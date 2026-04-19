@@ -10,25 +10,24 @@
 // STEP 4: Go to Account → API Keys → copy your Public Key
 // STEP 5: Replace the placeholder values below with your real IDs
 
-let EMAILJS_PUBLIC_KEY;
-let EMAILJS_SERVICE_ID;
-let EMAILJS_TEMPLATE_ID;
+let EMAILJS_PUBLIC_KEY="e2xdKM7_yNyRgiqoS";
+let EMAILJS_SERVICE_ID="service_kw7uj5l";
+let EMAILJS_TEMPLATE_ID="template_iqj09rf";
+
 let emailjsReady = false;
 
 // Initialize EmailJS
-(async function () {
+if (window.emailjs) {
   try {
-    const response = await fetch('/api/config');
-    const config = await response.json();
-    EMAILJS_PUBLIC_KEY = config.PUBLIC_Key;
-    EMAILJS_SERVICE_ID = config.SERVICE_ID;
-    EMAILJS_TEMPLATE_ID = config.TEMPLATE_ID;
-    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+    emailjs.init(EMAILJS_PUBLIC_KEY);
     emailjsReady = true;
+    console.log("✅ EmailJS initialized successfully");
   } catch (error) {
-    console.error('Failed to load EmailJS config:', error);
+    console.error("❌ Failed to initialize EmailJS:", error);
   }
-})();
+} else {
+  console.error("❌ EmailJS library not loaded");
+}
 
 // ─────────────────────────────────────────────
 // Helper: Show Toast
